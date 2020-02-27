@@ -1,6 +1,7 @@
 package org.buffer.android.boilerplate.ui.browse
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +10,19 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import org.buffer.android.boilerplate.ui.R
-import org.buffer.android.boilerplate.ui.model.BufferooViewModel
+import org.buffer.android.boilerplate.ui.model.ArticleViewModel
 import javax.inject.Inject
 
-class BrowseAdapter @Inject constructor(): RecyclerView.Adapter<BrowseAdapter.ViewHolder>() {
+class BrowseAdapter @Inject constructor() : RecyclerView.Adapter<BrowseAdapter.ViewHolder>() {
 
-    var bufferoos: List<BufferooViewModel> = arrayListOf()
+    var articles: List<ArticleViewModel> = arrayListOf()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val bufferoo = bufferoos[position]
-        holder.nameText.text = bufferoo.name
-        holder.titleText.text = bufferoo.title
-
+        val article = articles[position]
+        holder.nameText.text = article.author
+        holder.titleText.text = article.title
         Glide.with(holder.itemView.context)
-                .load(bufferoo.avatar)
+                .load(article.urlToImage)
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.avatarImage)
     }
@@ -35,7 +35,7 @@ class BrowseAdapter @Inject constructor(): RecyclerView.Adapter<BrowseAdapter.Vi
     }
 
     override fun getItemCount(): Int {
-        return bufferoos.size
+        return articles.size
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

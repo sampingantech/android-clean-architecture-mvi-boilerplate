@@ -15,9 +15,9 @@ import org.buffer.android.boilerplate.presentation.base.BaseView
 import org.buffer.android.boilerplate.presentation.browse.BrowseBufferoosViewModel
 import org.buffer.android.boilerplate.presentation.browse.BrowseIntent
 import org.buffer.android.boilerplate.presentation.browse.BrowseUiModel
-import org.buffer.android.boilerplate.presentation.browse.model.BufferooView
+import org.buffer.android.boilerplate.presentation.browse.model.ArticleView
 import org.buffer.android.boilerplate.ui.R
-import org.buffer.android.boilerplate.ui.mapper.BufferooMapper
+import org.buffer.android.boilerplate.ui.mapper.ArticleMapper
 import org.buffer.android.boilerplate.ui.widget.empty.EmptyListener
 import org.buffer.android.boilerplate.ui.widget.error.ErrorListener
 import javax.inject.Inject
@@ -30,10 +30,13 @@ class BrowseActivity : AppCompatActivity(),
     private val refreshConversationsIntentPublisher =
             BehaviorSubject.create<BrowseIntent.RefreshBufferoosIntent>()
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject lateinit var browseAdapter: BrowseAdapter
-    @Inject lateinit var mapper: BufferooMapper
+    @Inject
+    lateinit var browseAdapter: BrowseAdapter
+    @Inject
+    lateinit var mapper: ArticleMapper
     private lateinit var browseBufferoosViewModel: BrowseBufferoosViewModel
     private val compositeDisposable = CompositeDisposable()
 
@@ -92,7 +95,7 @@ class BrowseActivity : AppCompatActivity(),
         view_error.visibility = View.GONE
     }
 
-    private fun setupScreenForSuccess(data: List<BufferooView>?) {
+    private fun setupScreenForSuccess(data: List<ArticleView>?) {
         view_error.visibility = View.GONE
         progress.visibility = View.GONE
         if (data != null && data.isNotEmpty()) {
@@ -103,8 +106,8 @@ class BrowseActivity : AppCompatActivity(),
         }
     }
 
-    private fun updateListView(bufferoos: List<BufferooView>) {
-        browseAdapter.bufferoos = bufferoos.map { mapper.mapToViewModel(it) }
+    private fun updateListView(articles: List<ArticleView>) {
+        browseAdapter.articles = articles.map { mapper.mapToViewModel(it) }
         browseAdapter.notifyDataSetChanged()
     }
 
