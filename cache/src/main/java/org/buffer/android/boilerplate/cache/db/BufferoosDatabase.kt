@@ -6,11 +6,11 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import org.buffer.android.boilerplate.cache.dao.CachedArticleDao
 import org.buffer.android.boilerplate.cache.dao.CachedBufferooDao
-import org.buffer.android.boilerplate.cache.model.CachedArticle
+import org.buffer.android.boilerplate.cache.model.ArticleEntity
 import org.buffer.android.boilerplate.cache.model.CachedBufferoo
 import javax.inject.Inject
 
-@Database(entities = arrayOf(CachedBufferoo::class, CachedArticle::class), version = 1)
+@Database(entities = arrayOf(CachedBufferoo::class, ArticleEntity::class), version = 1)
 abstract class BufferoosDatabase @Inject constructor() : RoomDatabase() {
 
     abstract fun cachedBufferooDao(): CachedBufferooDao

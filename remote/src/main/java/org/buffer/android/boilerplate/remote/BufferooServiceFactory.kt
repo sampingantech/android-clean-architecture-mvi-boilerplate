@@ -8,6 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Field
 import java.util.concurrent.TimeUnit
 
 /**
@@ -15,6 +16,13 @@ import java.util.concurrent.TimeUnit
  * and its related dependencies, such as OkHttpClient, Gson, etc.
  */
 object BufferooServiceFactory {
+    val baseUrl: String
+
+    init {
+        val klass = Class.forName("org.buffer.android.boilerplate.ui.BuildConfig")
+        val field: Field = klass.getDeclaredField("BASE_URL")
+        baseUrl = field[null].toString()
+    }
 
     fun makeBuffeoorService(isDebug: Boolean): BufferooService {
         val okHttpClient = makeOkHttpClient(
@@ -23,8 +31,9 @@ object BufferooServiceFactory {
     }
 
     private fun makeBufferooService(okHttpClient: OkHttpClient, gson: Gson): BufferooService {
+
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://newsapi.org/v2/")
+                .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -53,7 +62,7 @@ object BufferooServiceFactory {
         logging.level = if (isDebug)
             HttpLoggingInterceptor.Level.BODY
         else
-          HttpLoggingInterceptor.Level.NONE
+            HttpLoggingInterceptor.Level.NONE
         return logging
     }
 

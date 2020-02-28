@@ -4,19 +4,22 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import org.buffer.android.boilerplate.cache.db.constants.ArticleConstants
-import org.buffer.android.boilerplate.cache.model.CachedArticle
+import org.buffer.android.boilerplate.cache.model.ArticleEntity
+
+const val TABLE_NAME = "article"
+const val QUERY_ARTICLES = "SELECT * FROM $TABLE_NAME"
+const val DELETE_ALL_ARTICLES = "DELETE FROM $TABLE_NAME"
 
 @Dao
 abstract class CachedArticleDao {
 
-    @Query(ArticleConstants.QUERY_ARTICLES)
-    abstract fun getArticles(): List<CachedArticle>
+    @Query(QUERY_ARTICLES)
+    abstract fun getArticles(): List<ArticleEntity>
 
-    @Query(ArticleConstants.DELETE_ALL_ARTICLES)
+    @Query(DELETE_ALL_ARTICLES)
     abstract fun clearArticles()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertSArticles(cachedArticle: CachedArticle)
+    abstract fun insertSArticles(cachedArticle: ArticleEntity)
 
 }

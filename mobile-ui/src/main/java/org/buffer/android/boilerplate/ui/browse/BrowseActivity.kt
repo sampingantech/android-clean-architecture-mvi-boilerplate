@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.bumptech.glide.Glide
 import dagger.android.AndroidInjection
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -33,7 +34,6 @@ class BrowseActivity : AppCompatActivity(),
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject
     lateinit var browseAdapter: BrowseAdapter
     @Inject
     lateinit var mapper: ArticleMapper
@@ -84,6 +84,7 @@ class BrowseActivity : AppCompatActivity(),
     }
 
     private fun setupBrowseRecycler() {
+        browseAdapter = BrowseAdapter(Glide.with(this))
         recycler_browse.layoutManager = LinearLayoutManager(this)
         recycler_browse.adapter = browseAdapter
     }

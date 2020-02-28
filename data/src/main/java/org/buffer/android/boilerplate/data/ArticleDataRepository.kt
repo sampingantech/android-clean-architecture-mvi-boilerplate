@@ -4,10 +4,8 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import org.buffer.android.boilerplate.data.mapper.ArticleMapper
 import org.buffer.android.boilerplate.data.model.ArticleEntity
-import org.buffer.android.boilerplate.data.model.BufferooEntity
 import org.buffer.android.boilerplate.data.source.ArticleDataStoreFactory
 import org.buffer.android.boilerplate.domain.model.Article
-import org.buffer.android.boilerplate.domain.model.Bufferoo
 import org.buffer.android.boilerplate.domain.repository.ArticleRepository
 import javax.inject.Inject
 

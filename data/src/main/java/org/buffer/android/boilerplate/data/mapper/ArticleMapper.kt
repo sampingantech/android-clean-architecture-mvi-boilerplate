@@ -19,7 +19,7 @@ open class ArticleMapper @Inject constructor() : Mapper<ArticleEntity, Article> 
      * Map a [Bufferoo] instance to a [BufferooEntity] instance
      */
     override fun mapToEntity(article: Article): ArticleEntity {
-        return ArticleEntity(ArticleEntity.Source(article.source?.id, article.source.name), article.author, article.title, article.description, article.url, article.urlToImage, article.publishedAt, article.content)
+        return ArticleEntity(ArticleEntity.Source(article.source.id, article.source.name), article.author, article.title, article.description, article.url, article.urlToImage, article.publishedAt, article.content)
     }
 
 

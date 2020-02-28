@@ -15,14 +15,16 @@ import javax.inject.Inject
 class ArticleRemoteImpl @Inject constructor(private val articleService: ArticleService,
                                             private val entityMapper: ArticleEntityMapper) :
         ArticleRemote {
+    val apikey: String
 
-    override fun getArticles(): Flowable<List<ArticleEntity>> {
+    init {
         val klass = Class.forName("org.buffer.android.boilerplate.ui.BuildConfig")
         val field: Field = klass.getDeclaredField("API_KEY")
-        val value: String = field[null].toString()
+        apikey = field[null].toString()
+    }
 
-
-        return articleService.getArticles(value)
+    override fun getArticles(): Flowable<List<ArticleEntity>> {
+        return articleService.getArticles(apikey)
                 .map {
                     it.articles
                 }

@@ -1,7 +1,7 @@
 package org.buffer.android.boilerplate.ui.model
 
 
-class ArticleViewModel(
+class ArticleIntent(
         val author: String,
         val title: String,
         val description: String,
