@@ -1,8 +1,6 @@
 package org.buffer.android.boilerplate.data.repository
 
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 import org.buffer.android.boilerplate.data.model.ArticleEntity
 
 interface ArticleCache {
@@ -10,24 +8,24 @@ interface ArticleCache {
     /**
      * Clear all Articles from the cache.
      */
-    fun clearArticles(): Completable
+    suspend fun clearArticles()
 
     /**
      * Save a given list of Articles to the cache.
      */
-    fun saveArticles(articles: List<ArticleEntity>): Completable
+    suspend fun saveArticles(articles: List<ArticleEntity>)
 
     /**
      * Retrieve a list of Articles, from the cache.
      */
-    fun getArticles(): Flowable<List<ArticleEntity>>
+    fun getArticles(): Flow<List<ArticleEntity>>
 
     /**
      * Check whether there is a list of Articles stored in the cache.
      *
      * @return true if the list is cached, otherwise false
      */
-    fun isCached(): Single<Boolean>
+    fun isCached(): Flow<Boolean>
 
     /**
      * Set a point in time at when the cache was last updated.

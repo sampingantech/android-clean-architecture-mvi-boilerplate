@@ -1,6 +1,6 @@
 package org.buffer.android.boilerplate.data.repository
 
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 import org.buffer.android.boilerplate.data.model.ArticleEntity
 
 /**
@@ -12,6 +12,6 @@ interface ArticleRemote {
     /**
      * Retrieve a list of Articles, from the cache
      */
-    fun getArticles(): Flowable<List<ArticleEntity>>
+    fun getArticles(): Flow<List<ArticleEntity>>
 
 }

@@ -1,9 +1,7 @@
 package org.buffer.android.boilerplate.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import org.buffer.android.boilerplate.data.model.ArticleEntity
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
 
 /**
  * Interface defining methods for the data operations related to Articles.
@@ -12,12 +10,12 @@ import io.reactivex.Single
  */
 interface ArticleDataStore {
 
-    fun clearArticles(): Completable
+    suspend fun clearArticles()
 
-    fun saveArticles(articles: List<ArticleEntity>): Completable
+    suspend fun saveArticles(articles: List<ArticleEntity>)
 
-    fun getArticles(): Flowable<List<ArticleEntity>>
+    fun getArticles(): Flow<List<ArticleEntity>>
 
-    fun isCached(): Single<Boolean>
+    fun isCached(): Flow<Boolean>
 
 }

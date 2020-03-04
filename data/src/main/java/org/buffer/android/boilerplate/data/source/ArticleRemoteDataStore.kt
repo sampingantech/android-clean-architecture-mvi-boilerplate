@@ -1,14 +1,9 @@
 package org.buffer.android.boilerplate.data.source
 
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 import org.buffer.android.boilerplate.data.model.ArticleEntity
-import org.buffer.android.boilerplate.data.model.BufferooEntity
 import org.buffer.android.boilerplate.data.repository.ArticleDataStore
 import org.buffer.android.boilerplate.data.repository.ArticleRemote
-import org.buffer.android.boilerplate.data.repository.BufferooDataStore
-import org.buffer.android.boilerplate.data.repository.BufferooRemote
 import javax.inject.Inject
 
 /**
@@ -18,19 +13,19 @@ import javax.inject.Inject
 open class ArticleRemoteDataStore @Inject constructor(private val articleRemote: ArticleRemote) :
         ArticleDataStore {
 
-    override fun clearArticles(): Completable {
+    override suspend fun clearArticles() {
         throw UnsupportedOperationException()
     }
 
-    override fun saveArticles(articles: List<ArticleEntity>): Completable {
+    override suspend fun saveArticles(articles: List<ArticleEntity>) {
         throw UnsupportedOperationException()
     }
 
-    override fun getArticles(): Flowable<List<ArticleEntity>> {
+    override fun getArticles(): Flow<List<ArticleEntity>> {
         return articleRemote.getArticles()
     }
 
-    override fun isCached(): Single<Boolean> {
+    override fun isCached(): Flow<Boolean> {
         throw UnsupportedOperationException()
     }
 

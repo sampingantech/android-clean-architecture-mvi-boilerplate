@@ -1,6 +1,5 @@
 package org.buffer.android.boilerplate.remote
 
-import io.reactivex.Flowable
 import org.buffer.android.boilerplate.remote.model.ArticleModel
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -11,7 +10,7 @@ import retrofit2.http.Query
 interface ArticleService {
 
     @GET("top-headlines?country=id")
-    fun getArticles(@Query("apiKey")key: String): Flowable<ArticleResponse>
+    suspend fun getArticles(@Query("apiKey") key: String): ArticleResponse
 
     class ArticleResponse(
             val status: String? = null,
