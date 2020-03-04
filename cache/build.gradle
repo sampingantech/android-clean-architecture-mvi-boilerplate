@@ -56,6 +56,8 @@ dependencies {
     implementation cacheDependencies.kotlin
     implementation cacheDependencies.javaxInject
     implementation cacheDependencies.rxKotlin
+    implementation cacheDependencies.coroutineCore
+    implementation cacheDependencies.coroutine
     implementation cacheDependencies.gson
     implementation cacheDependencies.roomRuntime
     kapt cacheDependencies.roomCompiler

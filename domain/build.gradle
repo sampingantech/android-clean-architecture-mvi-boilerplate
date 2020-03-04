@@ -16,6 +16,8 @@ dependencies {
     implementation domainDependencies.javaxAnnotation
     implementation domainDependencies.javaxInject
     implementation domainDependencies.rxKotlin
+    implementation domainDependencies.coroutineCore
+    implementation domainDependencies.coroutine
     implementation domainDependencies.kotlin
 
     testImplementation domainTestDependencies.junit

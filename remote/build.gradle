@@ -12,6 +12,8 @@ dependencies {
     implementation remoteDependencies.kotlin
     implementation remoteDependencies.javaxInject
     implementation remoteDependencies.rxKotlin
+    implementation remoteDependencies.coroutineCore
+    implementation remoteDependencies.coroutine
     implementation remoteDependencies.gson
     implementation remoteDependencies.okHttp
     implementation remoteDependencies.okHttpLogger
