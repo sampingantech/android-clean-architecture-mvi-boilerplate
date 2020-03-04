@@ -1,9 +1,7 @@
 package org.buffer.android.boilerplate.domain.repository
 
-import io.reactivex.Completable
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 import org.buffer.android.boilerplate.domain.model.Article
-import org.buffer.android.boilerplate.domain.model.Bufferoo
 
 /**
  * Interface defining methods for how the data layer can pass data to and from the Domain layer.
@@ -12,10 +10,10 @@ import org.buffer.android.boilerplate.domain.model.Bufferoo
  */
 interface ArticleRepository {
 
-    fun clearArticle(): Completable
+    suspend fun clearArticle()
 
-    fun saveArticles(articles: List<Article>): Completable
+    suspend fun saveArticles(articles: List<Article>)
 
-    fun getArticles(): Flowable<List<Article>>
+    fun getArticles(): Flow<List<Article>>
 
 }
