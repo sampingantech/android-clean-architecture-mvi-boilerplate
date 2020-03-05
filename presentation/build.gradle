@@ -58,6 +58,8 @@ dependencies {
     implementation presentationDependencies.kotlin
     implementation presentationDependencies.javaxInject
     implementation presentationDependencies.rxKotlin
+    implementation presentationDependencies.coroutineCore
+    implementation presentationDependencies.coroutine
     implementation presentationDependencies.archRuntime
     implementation presentationDependencies.archExtensions
     kapt presentationDependencies.archCompiler

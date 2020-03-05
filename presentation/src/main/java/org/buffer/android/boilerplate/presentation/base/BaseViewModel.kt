@@ -1,9 +1,9 @@
 package org.buffer.android.boilerplate.presentation.base
 
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface BaseViewModel<I : BaseIntent, S : BaseViewState> {
-    fun processIntents(intents: Observable<I>)
+    fun processIntents(intents: Flow<I>)
 
-    fun states(): Observable<S>
+    fun states(): Flow<S>
 }
