@@ -8,7 +8,7 @@ import org.buffer.android.boilerplate.cache.dao.TABLE_NAME
  * Model used solely for the caching of a article
  */
 @Entity(tableName = TABLE_NAME)
-data class ArticleEntity(
+data class CachedArticle(
 
         val sourceName: String,
         val sourceID: String,

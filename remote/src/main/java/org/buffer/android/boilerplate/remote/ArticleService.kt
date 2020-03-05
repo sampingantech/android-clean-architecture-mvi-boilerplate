@@ -13,7 +13,7 @@ interface ArticleService {
     @GET("top-headlines?country=id")
     fun getArticles(@Query("apiKey")key: String): Flowable<ArticleResponse>
 
-    class ArticleResponse(
+    data class ArticleResponse(
             val status: String? = null,
             val totalResults: Int? = null,
             val articles: List<ArticleModel> = listOf()
