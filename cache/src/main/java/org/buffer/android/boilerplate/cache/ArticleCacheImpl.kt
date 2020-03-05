@@ -1,16 +1,12 @@
 package org.buffer.android.boilerplate.cache
 
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import org.buffer.android.boilerplate.cache.db.BufferoosDatabase
 import org.buffer.android.boilerplate.cache.mapper.ArticleEntityMapper
-import org.buffer.android.boilerplate.cache.mapper.BufferooEntityMapper
-import org.buffer.android.boilerplate.cache.model.CachedBufferoo
 import org.buffer.android.boilerplate.data.model.ArticleEntity
-import org.buffer.android.boilerplate.data.model.BufferooEntity
 import org.buffer.android.boilerplate.data.repository.ArticleCache
-import org.buffer.android.boilerplate.data.repository.BufferooCache
 import javax.inject.Inject
 
 /**
@@ -32,27 +28,19 @@ class ArticleCacheImpl @Inject constructor(val bufferoosDatabase: BufferoosDatab
         return bufferoosDatabase
     }
 
-    override fun clearArticles(): Completable {
-        return Completable.defer {
-            bufferoosDatabase.cachedArticleDao().clearArticles()
-            Completable.complete()
+    override suspend fun clearArticles() {
+        bufferoosDatabase.cachedArticleDao().clearArticles()
+    }
+
+    override suspend fun saveArticles(articles: List<ArticleEntity>) {
+        articles.forEach {
+            bufferoosDatabase.cachedArticleDao().insertSArticles(
+                    entityMapper.mapToCached(it))
         }
     }
 
-    override fun saveArticles(articles: List<ArticleEntity>): Completable {
-        return Completable.defer {
-            articles.forEach {
-                bufferoosDatabase.cachedArticleDao().insertSArticles(
-                        entityMapper.mapToCached(it))
-            }
-            Completable.complete()
-        }
-    }
-
-    override fun getArticles(): Flowable<List<ArticleEntity>> {
-        return Flowable.defer {
-            Flowable.just(bufferoosDatabase.cachedArticleDao().getArticles())
-        }.map {
+    override fun getArticles(): Flow<List<ArticleEntity>> {
+        return flowOf(bufferoosDatabase.cachedArticleDao().getArticles()).map {
             it.map { entityMapper.mapFromCached(it) }
         }
     }
@@ -60,10 +48,8 @@ class ArticleCacheImpl @Inject constructor(val bufferoosDatabase: BufferoosDatab
     /**
      * Check whether there are instances of [CachedArticleDao] stored in the cache.
      */
-    override fun isCached(): Single<Boolean> {
-        return Single.defer {
-            Single.just(bufferoosDatabase.cachedArticleDao().getArticles().isNotEmpty())
-        }
+    override fun isCached(): Flow<Boolean> {
+        return flowOf(bufferoosDatabase.cachedArticleDao().getArticles().isNotEmpty())
     }
 
     /**

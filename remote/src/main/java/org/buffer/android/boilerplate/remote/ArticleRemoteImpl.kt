@@ -1,6 +1,7 @@
 package org.buffer.android.boilerplate.remote
 
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import org.buffer.android.boilerplate.data.model.ArticleEntity
 import org.buffer.android.boilerplate.data.repository.ArticleRemote
 import org.buffer.android.boilerplate.remote.mapper.ArticleEntityMapper
@@ -23,16 +24,12 @@ class ArticleRemoteImpl @Inject constructor(private val articleService: ArticleS
         apikey = field[null].toString()
     }
 
-    override fun getArticles(): Flowable<List<ArticleEntity>> {
-        return articleService.getArticles(apikey)
-                .map {
-                    it.articles
-                }
-                .map {
-                    val entities = mutableListOf<ArticleEntity>()
-                    it.forEach { entities.add(entityMapper.mapFromRemote(it)) }
-                    entities
-                }
+    override fun getArticles(): Flow<List<ArticleEntity>> {
+        val entities = mutableListOf<ArticleEntity>()
+        articleService.getArticles(apikey).articles.forEach {
+            entities.add(entityMapper.mapFromRemote(it))
+        }
+        return flowOf(entities)
     }
 
 }

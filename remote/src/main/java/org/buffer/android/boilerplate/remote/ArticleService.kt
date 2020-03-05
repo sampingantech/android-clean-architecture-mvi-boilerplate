@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface ArticleService {
 
     @GET("top-headlines?country=id")
-    suspend fun getArticles(@Query("apiKey") key: String): ArticleResponse
+    fun getArticles(@Query("apiKey") key: String): ArticleResponse
 
     class ArticleResponse(
             val status: String? = null,
