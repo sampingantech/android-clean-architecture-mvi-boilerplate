@@ -101,6 +101,8 @@ dependencies {
     implementation mobileUiDependencies.kotlin
     implementation mobileUiDependencies.javaxInject
     implementation mobileUiDependencies.rxKotlin
+    implementation mobileUiDependencies.coroutineCore
+    implementation mobileUiDependencies.coroutine
     implementation mobileUiDependencies.androidAnnotations
     implementation mobileUiDependencies.androidSupportV4
     implementation mobileUiDependencies.androidSupportV13

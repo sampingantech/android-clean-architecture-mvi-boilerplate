@@ -8,10 +8,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.bumptech.glide.Glide
 import dagger.android.AndroidInjection
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_browse.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.buffer.android.boilerplate.presentation.base.BaseView
 import org.buffer.android.boilerplate.presentation.browse.BrowseBufferoosViewModel
 import org.buffer.android.boilerplate.presentation.browse.BrowseIntent
@@ -22,14 +25,18 @@ import org.buffer.android.boilerplate.ui.mapper.ArticleMapper
 import org.buffer.android.boilerplate.ui.widget.empty.EmptyListener
 import org.buffer.android.boilerplate.ui.widget.error.ErrorListener
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 class BrowseActivity : AppCompatActivity(),
-        BaseView<BrowseIntent, BrowseUiModel> {
+        BaseView<BrowseIntent, BrowseUiModel>, CoroutineScope {
 
-    private val loadConversationsIntentPublisher =
-            BehaviorSubject.create<BrowseIntent.LoadBufferoosIntent>()
-    private val refreshConversationsIntentPublisher =
-            BehaviorSubject.create<BrowseIntent.RefreshBufferoosIntent>()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
+
+    private var loadConversationsIntentPublisher = ConflatedBroadcastChannel<BrowseIntent.LoadBufferoosIntent>()
+
+    private var refreshConversationsIntentPublisher = ConflatedBroadcastChannel<BrowseIntent.RefreshBufferoosIntent>()
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -38,7 +45,8 @@ class BrowseActivity : AppCompatActivity(),
     @Inject
     lateinit var mapper: ArticleMapper
     private lateinit var browseBufferoosViewModel: BrowseBufferoosViewModel
-    private val compositeDisposable = CompositeDisposable()
+
+    private val compositeDisposable = mutableSetOf<Job>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,22 +59,27 @@ class BrowseActivity : AppCompatActivity(),
         setupBrowseRecycler()
         setupViewListeners()
 
-        compositeDisposable.add(browseBufferoosViewModel.states().subscribe({ render(it) }))
+        compositeDisposable.add(browseBufferoosViewModel.states()
+                .onEach { render(it) }
+                .flowOn(Dispatchers.Main)
+                .launchIn(this))
         browseBufferoosViewModel.processIntents(intents())
     }
 
     override fun onDestroy() {
-        compositeDisposable.dispose()
+        compositeDisposable.forEach { parentJob ->
+            parentJob.cancel()
+        }
+        compositeDisposable.clear()
         super.onDestroy()
     }
 
-    override fun intents(): Observable<BrowseIntent> {
-        return Observable.merge(initialIntent(), loadConversationsIntentPublisher,
-                refreshConversationsIntentPublisher)
+    override fun intents(): Flow<BrowseIntent> {
+        return merge(initialIntent(), loadConversationsIntentPublisher.asFlow(), refreshConversationsIntentPublisher.asFlow())
     }
 
-    private fun initialIntent(): Observable<BrowseIntent.InitialIntent> {
-        return Observable.just(BrowseIntent.InitialIntent)
+    private fun initialIntent(): Flow<BrowseIntent.InitialIntent> {
+        return flowOf(BrowseIntent.InitialIntent)
     }
 
     override fun render(state: BrowseUiModel) {
@@ -126,14 +139,20 @@ class BrowseActivity : AppCompatActivity(),
 
     private val emptyListener = object : EmptyListener {
         override fun onCheckAgainClicked() {
-            refreshConversationsIntentPublisher.onNext(BrowseIntent.RefreshBufferoosIntent)
+            launch {
+                refreshConversationsIntentPublisher.send(BrowseIntent.RefreshBufferoosIntent)
+            }
         }
     }
 
     private val errorListener = object : ErrorListener {
         override fun onTryAgainClicked() {
-            refreshConversationsIntentPublisher.onNext(BrowseIntent.RefreshBufferoosIntent)
+            launch {
+                refreshConversationsIntentPublisher.send(BrowseIntent.RefreshBufferoosIntent)
+            }
         }
     }
 
 }
+
+fun <T> merge(vararg flows: Flow<T>): Flow<T> = flowOf(*flows).flattenMerge()
