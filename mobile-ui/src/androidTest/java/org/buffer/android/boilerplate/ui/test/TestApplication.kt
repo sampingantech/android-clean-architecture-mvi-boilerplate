@@ -2,7 +2,7 @@ package org.buffer.android.boilerplate.ui.test
 
 import android.app.Activity
 import android.app.Application
-import android.support.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
