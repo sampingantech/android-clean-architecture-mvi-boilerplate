@@ -52,6 +52,7 @@ dependencies {
     compileOnly cacheDependencies.javaxAnnotation
 
     implementation project(':data')
+    api project(':models')
 
     implementation cacheDependencies.kotlin
     implementation cacheDependencies.javaxInject

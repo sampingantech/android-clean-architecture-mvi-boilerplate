@@ -1,0 +1,14 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    def cacheDependencies = rootProject.ext.cacheDependencies
+    def domainDependencies = rootProject.ext.domainDependencies
+    implementation domainDependencies.kotlin
+    implementation cacheDependencies.roomRuntime
+    kapt cacheDependencies.roomCompiler
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

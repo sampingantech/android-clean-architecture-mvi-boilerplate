@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import android.content.Context
 import org.buffer.android.boilerplate.cache.dao.CachedArticleDao
 import org.buffer.android.boilerplate.cache.dao.CachedBufferooDao
-import org.buffer.android.boilerplate.cache.model.CachedArticle
+import org.buffer.android.boilerplate.models.CachedArticle
 import org.buffer.android.boilerplate.cache.model.CachedBufferoo
 import javax.inject.Inject
 

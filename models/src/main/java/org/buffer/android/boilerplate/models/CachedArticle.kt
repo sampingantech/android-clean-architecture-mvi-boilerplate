@@ -1,13 +1,9 @@
-package org.buffer.android.boilerplate.cache.model
+package org.buffer.android.boilerplate.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.buffer.android.boilerplate.cache.dao.TABLE_NAME
 
-/**
- * Model used solely for the caching of a article
- */
-@Entity(tableName = TABLE_NAME)
+@Entity(tableName = "article")
 data class CachedArticle(
 
         val sourceName: String,

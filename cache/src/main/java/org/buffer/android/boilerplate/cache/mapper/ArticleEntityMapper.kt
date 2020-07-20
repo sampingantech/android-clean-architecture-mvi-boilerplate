@@ -1,6 +1,6 @@
 package org.buffer.android.boilerplate.cache.mapper
 
-import org.buffer.android.boilerplate.cache.model.CachedArticle
+import org.buffer.android.boilerplate.models.CachedArticle
 import org.buffer.android.boilerplate.data.model.ArticleEntity
 import javax.inject.Inject
 
