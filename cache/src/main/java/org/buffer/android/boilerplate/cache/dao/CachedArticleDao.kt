@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import org.buffer.android.boilerplate.cache.model.CachedArticle
+import org.buffer.android.boilerplate.models.CachedArticle
 
 const val TABLE_NAME = "article"
 const val QUERY_ARTICLES = "SELECT * FROM $TABLE_NAME"
