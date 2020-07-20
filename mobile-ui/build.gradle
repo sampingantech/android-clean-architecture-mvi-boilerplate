@@ -116,7 +116,7 @@ dependencies {
 
     implementation presentationDependencies.archRuntime
     implementation presentationDependencies.archExtensions
-    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+    implementation presentationDependencies.roomRxJava
     kapt presentationDependencies.archCompiler
 
     testImplementation mobileUiTestDependencies.kotlinJUnit
